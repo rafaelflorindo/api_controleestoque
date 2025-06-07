@@ -31,7 +31,7 @@ O projeto tem como objetivo funcionar como uma API RESTful, permitindo a realiza
 
 1. Clone o repositório:
    ```bash
-   git clone https://github.com/rafaelflorindo/ControleEstoque.git
+   git clone https://github.com/rafaelflorindo/api_controleestoque.git
 2. Acesse a pasta:
     ```bash
     cd ControleEstoque
