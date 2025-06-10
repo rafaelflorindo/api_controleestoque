@@ -59,8 +59,7 @@ router.put("/update/:id", async (req, res) => {
     }
 });
 
-// Remover usuário
-router.delete("/delete/:id", async (req, res) => {
+router.put("/ativar/:id", async (req, res) => {
     try {
         const id = Number(req.params.id);
         const usuario = await Usuario.findByPk(id);
@@ -69,11 +68,32 @@ router.delete("/delete/:id", async (req, res) => {
             return res.status(404).json({ error: "Usuário não encontrado." });
         }
 
-        await usuario.destroy();
-        res.status(200).json({ message: "Usuário removido com sucesso!" });
+        usuario.ativo = true;
+        await usuario.save();
+
+        res.status(200).json({ message: "Usuário ativado com sucesso!" });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: "Erro ao remover o usuário." });
+        res.status(500).json({ error: "Erro ao ativar o usuário." });
+    }
+});
+
+router.put("/inativar/:id", async (req, res) => {
+    try {
+        const id = Number(req.params.id);
+        const usuario = await Usuario.findByPk(id);
+
+        if (!usuario) {
+            return res.status(404).json({ error: "Usuário não encontrado." });
+        }
+
+        usuario.ativo = false;
+        await usuario.save();
+
+        res.status(200).json({ message: "Usuário inativado com sucesso!" });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Erro ao inativar o usuário." });
     }
 });
 

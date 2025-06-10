@@ -57,17 +57,37 @@ router.put('/update/:id', async (req, res) => {
     }
 });
 
-router.delete('/delete/:id', async (req, res) => {
+router.put('/inativar/:id', async (req, res) => {
     const id = Number(req.params.id);
     if (isNaN(id)) return res.status(400).json({ error: "ID inválido." });
 
     try {
         const produto = await Produto.findByPk(id);
         if (!produto) return res.status(404).json({ error: "Produto não encontrado." });
-        await produto.destroy();
-        res.status(200).json({ message: "Produto removido com sucesso!" });
+
+        produto.ativo = false;
+        await produto.save();
+
+        res.status(200).json({ message: "Produto inativado com sucesso!" });
     } catch (error) {
-        res.status(500).json({ error: "Erro ao remover produto." });
+        res.status(500).json({ error: "Erro ao inativar produto." });
+    }
+});
+
+router.put('/ativar/:id', async (req, res) => {
+    const id = Number(req.params.id);
+    if (isNaN(id)) return res.status(400).json({ error: "ID inválido." });
+
+    try {
+        const produto = await Produto.findByPk(id);
+        if (!produto) return res.status(404).json({ error: "Produto não encontrado." });
+
+        produto.ativo = true;
+        await produto.save();
+
+        res.status(200).json({ message: "Produto ativado com sucesso!" });
+    } catch (error) {
+        res.status(500).json({ error: "Erro ao ativar produto." });
     }
 });
 

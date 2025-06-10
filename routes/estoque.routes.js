@@ -59,8 +59,7 @@ router.put("/update/:id", async (req, res) => {
     }
 });
 
-// Remover estoque
-router.delete("/delete/:id", async (req, res) => {
+router.put("/ativar/:id", async (req, res) => {
     try {
         const id = Number(req.params.id);
         const estoque = await Estoque.findByPk(id);
@@ -69,11 +68,32 @@ router.delete("/delete/:id", async (req, res) => {
             return res.status(404).json({ error: "Estoque não encontrado." });
         }
 
-        await estoque.destroy();
-        res.status(200).json({ message: "Estoque removido com sucesso!" });
+        estoque.ativo = true;
+        await estoque.save();
+
+        res.status(200).json({ message: "Estoque inativado com sucesso!" });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: "Erro ao remover estoque." });
+        res.status(500).json({ error: "Erro ao inativar estoque." });
+    }
+});
+
+router.put("/inativar/:id", async (req, res) => {
+    try {
+        const id = Number(req.params.id);
+        const estoque = await Estoque.findByPk(id);
+
+        if (!estoque) {
+            return res.status(404).json({ error: "Estoque não encontrado." });
+        }
+
+        estoque.ativo = false;
+        await estoque.save();
+
+        res.status(200).json({ message: "Estoque inativado com sucesso!" });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Erro ao inativar estoque." });
     }
 });
 

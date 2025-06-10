@@ -3,7 +3,7 @@ const sequelize = require("../database");
 const Produto = require('./Produto');
 
 const Estoque = sequelize.define("Estoque", {
-    marca:{
+    marca: {
         type: DataTypes.STRING,
         allowNull: false,
     },
@@ -29,9 +29,9 @@ const Estoque = sequelize.define("Estoque", {
         type: DataTypes.INTEGER,
         allowNull: false,
         validate: {
-            min: 0,
-        }, 
-        default:0,
+            min: 0
+        },
+        defaultValue: 0
     },
     precoVenda: {
         type: DataTypes.FLOAT,
@@ -39,11 +39,30 @@ const Estoque = sequelize.define("Estoque", {
         validate: {
             min: 0.01
         }
+    },
+    foto: {
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
+    ativo: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: true 
+    },
+    produtoId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+        model: "Produtos", // ou o nome correto da tabela
+        key: "id"
     }
+}
 });
 
+
 // Relacionamento
-Produto.hasMany(Estoque);      // Um produto tem muitos estoques
-Estoque.belongsTo(Produto);    // Um estoque pertence a um produto
+//Produto.hasMany(Estoque);      // Um produto tem muitos estoques
+//Estoque.belongsTo(Produto);    // Um estoque pertence a um produto
+
 
 module.exports = Estoque;
