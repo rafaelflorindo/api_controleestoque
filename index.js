@@ -17,8 +17,13 @@ app.get("/", (req, res) => {
     res.send("Rota Principal");
 });
 
+// Importa a rota de usuários
+const usuarioRoutes = require("./routes/usuario.routes");
+
+app.use("/usuarios", usuarioRoutes);
+
 app.use("/produtos", require("./routes/produto.routes"));
-app.use("/usuarios", require("./routes/usuario.routes"));
+//app.use("/usuarios", require("./routes/usuario.routes"));
 app.use("/estoques", require("./routes/estoque.routes"));
 app.use("/auth", require("./routes/auth.routes"));
 
